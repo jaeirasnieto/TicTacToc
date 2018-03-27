@@ -12,7 +12,7 @@ class Square extends React.Component {
     );
   }
 }
-
+// esto es un cambio hecho en la rama de develop
 class Board extends React.Component {
 
   
