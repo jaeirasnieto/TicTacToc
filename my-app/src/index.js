@@ -12,10 +12,8 @@ class Square extends React.Component {
     );
   }
 }
-// esto es un cambio hecho en la rama de develop
-class Board extends React.Component {
 
-  
+class Board extends React.Component {
 
   renderSquare(i) {
     return (
@@ -56,7 +54,8 @@ class Game extends React.Component {
     super(props);
     this.state = {
       history: [{
-        squares: Array(9).fill(null)
+        squares: Array(9).fill(null),
+        posClick: null,
       }],
       stepNumber: 0,
       xIsNext: true,
@@ -75,6 +74,7 @@ class Game extends React.Component {
     this.setState({
       history: history.concat([{
         squares: squares,
+        posClick: i
       }]),   
       stepNumber: history.length,   
       xIsNext: !this.state.xIsNext,
@@ -95,7 +95,9 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
-      const desc = move ? 'Ir al movimiento #' + move : 'Comenzar';
+      let col = parseInt(step.posClick / 3) + 1;
+      let row = step.posClick % 3 + 1;
+      const desc = move ? 'Ir al movimiento (' + col  + ',' + row + ')': 'Comenzar';
 
       return (
         <li key={move}>
