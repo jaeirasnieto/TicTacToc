@@ -95,9 +95,16 @@ class Game extends React.Component {
       let row = step.posClick % 3 + 1;
       const desc = move ? 'Ir al movimiento (' + col  + ',' + row + ')': 'Comenzar';
 
+      let resaltar = '';
+      if(this.state.stepNumber === move) {
+        resaltar = 'game-info-bold';
+      } else {
+        resaltar = '';
+      }
+
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button className={resaltar} onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       );
     });
