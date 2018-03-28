@@ -93,14 +93,18 @@ class Game extends React.Component {
     const resultadoCalcularWinner = calculateWinner(current.squares);
     let winner;
     let posicionesGanadoras;
+    let empate;
     var estilos = Array(9).fill('square');
 
     if (resultadoCalcularWinner) {
       winner = resultadoCalcularWinner.winner;
       posicionesGanadoras = resultadoCalcularWinner.posicionesGanadoras;
+      empate = resultadoCalcularWinner.empate;
 
-      for(let posicionGanadora of posicionesGanadoras) {
-        estilos[posicionGanadora] = 'square square-rojo';
+      if(!empate) {
+        for(let posicionGanadora of posicionesGanadoras) {
+          estilos[posicionGanadora] = 'square square-rojo';
+        }
       }
 
     }
@@ -129,6 +133,8 @@ class Game extends React.Component {
 
     if(winner) {
       status = 'Winner: ' + winner;
+    } if(empate) {
+      status = 'Draw '
     } else {
       status = 'Next Player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
@@ -175,9 +181,24 @@ function calculateWinner(squares) {
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return {
         winner: squares[a],
-        posicionesGanadoras: lines[i]
+        posicionesGanadoras: lines[i],
+        empate: false
       };
     }
+  }
+
+  // comprobamos posible empate
+  let empate = true;
+  for(let i = 0; i < squares.length; i++) {
+    if (!squares[i]) empate = false;
+  }
+
+  if(empate) {
+    return {
+      winner: null,
+      posicionesGanadoras: null,
+      empate: true
+    };
   }
   return null;
 }
